@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Disappearing Ninjas</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'turtles/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<div class="wrapper">
+		{% if not tmnt %}
+			<p>No Ninjas here<p>
+		{% else %}
+			{% static tmnt as myninja %}
+			<img src="{{myninja}}">
+		{% endif %}
+	</div>
+</body>
+</html>
