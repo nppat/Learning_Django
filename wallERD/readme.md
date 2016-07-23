@@ -1,0 +1,1 @@
+This assignment deals with creating models.  User, Message, and Comment were created.  User get tested out in views.py and prints to the terminal when executed.
