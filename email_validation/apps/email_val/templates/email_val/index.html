@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Email Validation</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'email_val/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<div id="wrapper">
+		<div id="message">
+			{% if request.session.message %}
+				<h2>{{ request.session.message }}</h2>
+			{% elif request.session.error %}
+				<h2>{{ request.session.error }}</h2>
+			{% endif %}
+		</div>
+		<form action="/emails/submit" method="post">
+			{% csrf_token %}
+			<label for="email_input">Email Address:  </label>
+			<input type="text" name="email_input" placeholder="Email Address...">
+			<button type="submit">Submit</button>
+		</form>
+		<h2>Email Addresses Entered</h2>
+		{% for email in emails %}
+			<p>{{email.email}} {{email.created_at}}</p>
+		{% endfor %}
+	</div>
+</body>
+</html>

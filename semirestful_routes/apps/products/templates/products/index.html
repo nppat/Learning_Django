@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Products | Home</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'products/css/main.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<h1>Products</h1>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Price</th>
+			<th>Actions</th>
+		</tr>
+		{% for product in products %}
+			<tr>
+				<td>{{ product.name }}</td>
+				<td>{{ product.description }}</td>
+				<td>{{ product.price }}</td>
+				<td>{{ product.actions }}</td>
+				<td>
+					<form action="/products/show/{{product.id}}" method="GET">
+						{% csrf_token %}
+						<button type="submit">Show</button>
+					</form>
+					<form action="/products/{{product.id}}/edit" method="GET">
+						{% csrf_token %}
+						<button type="submit">Edit</button>
+					</form>
+					<form action="/products/destroy/{{product.id}}" method="POST">
+						{% csrf_token %}
+						<button type="submit">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+	</table>
+	<a href="/products/new">Add a new product</a>
+</body>
+</html>

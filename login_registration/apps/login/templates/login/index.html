@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login &amp; Registration | Home</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'login/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<h1>Registration</h1>
+	<div id="message">
+		{% if request.session.message %}
+			<h2>{{ request.session.message }}</h2>
+		{% elif request.session.error %}
+			<h2>{{ request.session.error }}</h2>
+		{% endif %}
+	</div>
+	<form action='/registration/process' method="post">
+		{% csrf_token %}
+		<label for="first_name">First Name:  </label>
+		<input name="first_name" type="text" placeholder="First Name..."><br>
+		<label for="last_name">Last Name:  </label>
+		<input name="last_name" type="text" placeholder="Last Name..."><br>
+		<label for="email">Email:  </label>
+		<input name="email" type="email" placeholder="Email Address..."><br>
+		<label for="password">Password:  </label>
+		<input name="password" type="password" placeholder="Password..."><br>
+		<label for="confirm_password">Confirm Password:  </label>
+		<input name="confirm_password" type="password" placeholder="Confirm password..."><br>
+		<button type="submit">Register</button>
+	</form>
+	<h1>Login</h1>
+	<form action="/login" method="post">
+		{% csrf_token %}
+		<label for="login_email">Email:  </label>
+		<input name="login_email" type="email" placeholder="Email address..."><br>
+		<label for="login_password">Password:  </label>
+		<input name="login_password" type="password" placeholder="Password..."><br>
+		<button type="submit">Login</button>
+	</form>
+</body>
+</html>

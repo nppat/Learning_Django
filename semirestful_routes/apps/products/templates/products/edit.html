@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Products | Edit {{ name }}</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'products/css/main.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<h1>Edit Product #{{ id }}, {{ name }}</h1>
+	<div id="message">
+		{% if request.session.message %}
+			<h2>{{ request.session.message }}</h2>
+		{% elif request.session.error %}
+			<h2>{{ request.session.error }}</h2>
+		{% endif %}
+	</div>
+	<form action="/products/update/{{ id }}" method="post">
+		{% csrf_token %}
+		<label for="name">Name</label>
+		<input type="text" name="name" value='{{ name }}'><br>
+		<label for="description">Description</label>
+		<input type="text" name="description" value='{{ description }}'><br>
+		<label for="price">Price</label>
+		<input type="text" name="price" value='{{ price }}'><br>
+		<button type="submit">Update</button>
+	</form>
+	<a href="/products/show/{{ id }}">Show</a> | <a href="/">Go Back</a>
+</body>
+</html>
