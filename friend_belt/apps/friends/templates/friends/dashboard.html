@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Friends | Login/Registration</title>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'friends/css/style.css' %}"media="screen" title="no title"  charset="utf-8">
+</head>
+<body>
+	<div class="wrapper">
+		<div class="header">
+			<div id="header_left">
+				<h1>Hello, {{ request.session.name }}</h1>
+				<h3>Here is a list of all your friends:</h3>
+			</div>
+			<div id="header_right">
+				<a href="/friends/logout">Logout</a>
+			</div>
+		</div>
+		<div id="message">
+			{% if messages %}
+				<ul class="messages">
+				    {% for message in messages %}
+				    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+				    {% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+		<div class="top_content">
+			{% if friends %}
+				<table id="friends">
+					<tr>
+						<th>Alias</th>
+						<th>Actions</th>
+					</tr>
+				{% for friend in friends %}
+					<tr>
+						<td>{{ friend.alias }}</td>
+						<td>
+							<form action="friends/user/{{ friend.id }}" method="post">
+								{% csrf_token %}
+								<button type="submit">View Profile</button>
+							</form>
+							<form action="/friends/remove" method="post">
+								{% csrf_token %}
+								<button type="submit">Remove as Friend</button>
+							</form>
+						</td>
+					</tr>
+				</table>
+				{% endfor %}
+			{% else %}
+				<p>You have no friends!</p>
+			{% endif %}
+		</div>
+		<div class="bottom_content">
+			<h3>Other Users not on your friend's list:</h3>
+			<table id="friends">
+				<tr>
+					<th>Alias</th>
+					<th>Actions</th>
+				</tr>
+				{% for non_friend in non_friends %}
+					<tr>
+						<td><a href="/friends/user/{{ non_friend.id }}">{{ non_friend.alias }}</a></td>
+						<td>
+							<form action="/friends/add_friend/{{ non_friend.id }}" method="post">
+								{% csrf_token %}
+								<input type="hidden" name="hidden_id" value='{{ non_friend.id }}' >
+								<input type="hidden" name="hidden_name" value='{{ non_friend.name }}' >
+								<input type="hidden" name="hidden_alias" value='{{ non_friend.alias }}' >
+								<button type="submit">Add as friend</button>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</body>
+</html>
